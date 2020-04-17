@@ -62,23 +62,24 @@ with arcpy.da.UpdateCursor(in_table = bldg_subset, field_names = [fld_dpth]) as 
 			then fld_pct = 0
 # how to we exclude these structures with null fld_dpth fields?
 		elif fld_dpth => 0 and fld_dpth < 1:
-			then fld_pct = 13.4
+			then fld_pct = 0.134
 		elif fld_dpth => 1 and fld_dpth <2:
-			then fld_pct = 23.3
+			then fld_pct = 0.233
 		elif fld_dpth => 2 and fld_dpth < 3:
-			then fld_pct = 32.1
+			then fld_pct = 0.321
 		elif fld_dpth => 3 and fld_dpth < 4:
-			then fld_pct = 40.1
+			then fld_pct = 0.401
 		elif fld_dpth => 4 and fld_dpth < 5:
-			then fld_pct = 47.1
+			then fld_pct = 0.471
 		elif fld_dpth => 5:
-			then fld_pct = 53.2
+			then fld_pct = 0.532
     else fld_dpth ISNULL
 
-16.  Create a with statement using a cursor and then create a for loop within the with statement:
-With arcpy.da.UpdateCursor(FILE, field) as cursor:
-	For row in cursor:
-		Row[0] = rowX * rowY * $
+# create a with statement using a cursor and then create a for loop within the with statement:
+with arcpy.da.UpdateCursor(in_table = bldg_subset, field_names = [bldg_area, fld_pct, tot_dmg]) as cursor:
+	for row in cursor:
+		row[2] = row[0] * row[1] * 150
 		cursor.UpdateRow(row)
+		
 17.  Sum and output total structure damage value
 
